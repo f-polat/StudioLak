@@ -1,0 +1,28 @@
+STUDIO LAK – hjemmeside til neglesalon
+======================================
+
+Indhold
+  index.html   Hele siden (HTML, CSS og JavaScript i én fil)
+  haand.jpg    Foto af hånden til "Prøv farven"
+  salon.mp4    Video i toppen af siden (salon.jpg vises mens den indlæses)
+  form/        Masker til negle-facon og længde (oval, mandel, kiste, firkant × kort, mellem, lang)
+
+Sådan åbner du siden
+  "Prøv farven" tegner lakken ind i fotoet, og det kræver at siden køres
+  fra en lille webserver – ikke ved bare at dobbeltklikke på index.html.
+
+  Mac: dobbeltklik på "start.command" (første gang: højreklik > Åbn).
+       Siden åbner så på http://localhost:8000
+
+  Eller i Terminal, inde i denne mappe:
+       python3 -m http.server 8000
+
+Sådan lægger du den online
+  Upload hele mappen (med form/-mappen) til et webhotel, fx Netlify,
+  GitHub Pages, Simply.com eller One.com. index.html er forsiden.
+
+Før siden går live
+  - Telefonnummer (12 34 56 78) og e-mail (hej@studiolak.dk) er pladsholdere
+    – søg efter dem i index.html og ret dem.
+  - Bookingformularen er en prototype og sender ikke noget endnu. Den skal
+    kobles til et bookingsystem eller en formular-tjeneste (fx Formspree).

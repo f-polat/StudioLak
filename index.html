@@ -1,0 +1,886 @@
+<!doctype html><html lang="da"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><title>Studio Lak</title></head><body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Negle-salon med gelé lak, manicure, pedicure og forlængelse. Prøv farve, facon og længde på en rigtig hånd, og book online på under et minut.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+/* Layout: AutoGroup-skelettet (svævende pille-nav, hero med status-kort, sticky intro + liste, mørke bånd, kort-grid, tre trin, mørk kontakt)
+   oversat til lak: rosa-nude grund, aubergine bånd, kirsebærlak som accent. Signaturen er "Prøv en farve" – en hånd, man selv lakerer. */
+:root {
+  --ground: #F7F4F4;      /* varm hvid med et strejf af rosa */
+  --paper: #FFFFFF;
+  --field: #FFFFFF;
+  --text: #3B3537;        /* blød grafit */
+  --muted: #6A6063;
+  --line: #E7E0E1;
+  --band: #EFEAEA;        /* lys grå-rosa bånd */
+  --band-2: #E6DFE0;
+  --band-line: #DDD4D5;
+  --on-band: #3B3537;
+  --on-band-muted: rgb(59 53 55 / .7);
+  --lacquer: #955462;     /* støvet rosa, 5,6:1 mod hvid tekst */
+  --lacquer-hover: #7F4552;
+  --field-line: #9C9093;  /* 3:1 mod hvid, så felter kan ses */
+  --on-lacquer: #FFFFFF;
+  --blush: #F3DDE2;
+  --ok-bg: #F6E8EB; --ok-fg: #7A3E4B;
+  --open: #4CB782;
+  --busy: #F1ECEC;
+  --pick: #B3163F;
+  --glass: rgb(255 255 255 / .72);
+  --glass-strong: rgb(255 255 255 / .94);
+
+  --f-display: "Archivo", system-ui, sans-serif;
+  --f-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --wide: 125%;
+  --max: 1280px;
+  --gutter: clamp(16px, 4vw, 48px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #1E1B1C; --paper: #282425; --field: #2E292B;
+    --text: #F1ECEC; --muted: #B6ABAD; --line: #3A3436;
+    --band: #242021; --band-2: #2D2829; --band-line: #3A3436; --on-band: #F1ECEC; --on-band-muted: rgb(241 236 236 / .7);
+    --lacquer: #E2AAB6; --lacquer-hover: #ECBDC7; --on-lacquer: #2A2224; --blush: #4A3A3E;
+    --ok-bg: #3A2D30; --ok-fg: #F3D3DA; --busy: #2A2526;
+    --glass: rgb(40 36 37 / .72); --glass-strong: rgb(40 36 37 / .95); --field-line: #6E6467;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #1E1B1C; --paper: #282425; --field: #2E292B;
+  --text: #F1ECEC; --muted: #B6ABAD; --line: #3A3436;
+  --band: #242021; --band-2: #2D2829; --band-line: #3A3436; --on-band: #F1ECEC; --on-band-muted: rgb(241 236 236 / .7);
+  --lacquer: #E2AAB6; --lacquer-hover: #ECBDC7; --on-lacquer: #2A2224; --blush: #4A3A3E;
+  --ok-bg: #3A2D30; --ok-fg: #F3D3DA; --busy: #2A2526;
+  --glass: rgb(40 36 37 / .72); --glass-strong: rgb(40 36 37 / .95); --field-line: #6E6467;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body { background: var(--ground); color: var(--text); font: 400 17px/1.6 var(--f-display); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img, canvas { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+fieldset { border: 0; min-width: 0; }
+:focus-visible { outline: 3px solid var(--lacquer); outline-offset: 3px; border-radius: 6px; }
+.skip { position: absolute; left: 16px; top: -80px; z-index: 100; padding: 12px 18px; border-radius: 999px; background: var(--text); color: var(--ground); font-weight: 600; text-decoration: none; }
+.skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
+.wrap { max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto;
+  padding-left: max(16px, var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(16px, var(--gutter), env(safe-area-inset-right, 0px)); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.display { font-stretch: var(--wide); font-weight: 800; letter-spacing: -0.02em; line-height: .98; text-wrap: balance; }
+.display em { font: italic 400 1.08em/1 var(--f-serif); letter-spacing: -.01em; font-stretch: normal; }
+h2.display { font-size: clamp(36px, 5.4vw, 72px); }
+.lede { font-size: 19px; color: var(--muted); max-width: 52ch; }
+.eyebrow { display: block; font-size: 13px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--lacquer); margin-bottom: 18px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; font: 600 16px var(--f-display); text-decoration: none; cursor: pointer; border: 0; transition: background-color .2s, color .2s, border-color .2s, transform .15s; }
+.btn:active { transform: translateY(1px); }
+.btn-lak { background: var(--lacquer); color: var(--on-lacquer); }
+.btn-lak:hover { background: var(--lacquer-hover); }
+.btn-line { border: 1.5px solid currentColor; background: transparent; color: inherit; }
+.btn-line:hover { background: var(--text); color: var(--ground); border-color: var(--text); }
+.btn-ghost { border: 1.5px solid var(--field-line); background: var(--paper); color: var(--text); min-height: 44px; padding: 0 18px; font-size: 15px; }
+.btn-ghost:hover { border-color: var(--text); }
+
+/* ---------- Nav ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 61; background: var(--ground); }
+.nav { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); left: 0; right: 0; z-index: 60; }
+.nav-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; padding: 0 10px 0 24px; border-radius: 999px; background: var(--glass); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border: 1px solid var(--line); color: var(--text); transition: background-color .3s; }
+.nav.solid .nav-bar { background: var(--glass-strong); box-shadow: 0 8px 24px -16px rgb(59 53 55 / .35); }
+.logo { display: flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; line-height: 1; }
+.logo i { display: block; width: 11px; height: 17px; border-radius: 50% 50% 46% 46% / 66% 66% 34% 34%; background: linear-gradient(160deg, #F3C9D2, var(--lacquer) 70%); box-shadow: inset 2px 2px 0 rgb(255 255 255 / .45); transform: rotate(-12deg) translateY(2px); transition: background .4s; }
+.logo span { font: italic 400 26px var(--f-serif); }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-links a { text-decoration: none; font-size: 15px; font-weight: 500; padding: 10px 13px; border-radius: 999px; color: var(--muted); transition: color .2s, background-color .2s; }
+.nav-links a:hover { color: var(--text); background: var(--band); }
+.nav-links .btn { color: var(--on-lacquer); min-height: 44px; padding: 0 20px; margin-left: 6px; }
+.nav-links .btn:hover { background: var(--lacquer-hover); color: var(--on-lacquer); }
+.burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--band); color: var(--text); cursor: pointer; place-items: center; }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; min-height: clamp(520px, 74svh, 780px); background: #F3EEEF; color: #3B3537; display: flex; align-items: flex-end; overflow: hidden; }
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; }
+.hero-pause { position: absolute; z-index: 3; right: max(16px, var(--gutter)); top: calc(96px + env(safe-area-inset-top, 0px)); min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(59 53 55 / .12); background: rgb(255 255 255 / .75); color: #3B3537; font: 600 14px var(--f-display); cursor: pointer; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.hero-pause:hover { background: #FFFFFF; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(247 244 244 / .92) 0%, rgb(247 244 244 / .78) 38%, rgb(247 244 244 / .2) 70%, rgb(247 244 244 / .1) 100%), linear-gradient(180deg, rgb(247 244 244 / 0) 60%, #F7F4F4 100%); }
+.hero-inner { position: relative; z-index: 2; width: 100%; padding-block: 150px 48px; }
+.hero h1 { font-size: clamp(42px, 6.6vw, 104px); max-width: 13ch; }
+.hero-foot { margin-top: 36px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; }
+.hero-foot p { font-size: 19px; color: #5E5558; max-width: 48ch; margin-bottom: 26px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero .btn-line { color: #3B3537; }
+.hero .btn-line:hover { background: #3B3537; color: #FFFFFF; border-color: #3B3537; }
+.status { min-width: 290px; padding: 20px 22px; border-radius: 20px; background: rgb(255 255 255 / .7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgb(59 53 55 / .08); }
+.status-now { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #A99398; flex: none; }
+.dot.open { background: var(--open); box-shadow: 0 0 0 4px rgb(75 214 139 / .2); }
+.status-sub { color: #6A6063; font-size: 15px; margin: 2px 0 14px 20px; }
+.status .next { display: flex; align-items: center; min-height: 44px; text-decoration: none; font-stretch: var(--wide); font-weight: 700; font-size: 22px; letter-spacing: -.01em; }
+.status small { display: block; color: #6A6063; font-size: 14px; margin-top: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1, .hero-foot { animation: rise 1s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-foot { animation-delay: .25s; }
+  @keyframes rise { from { opacity: .001; transform: translateY(28px); } }
+}
+.strip { height: 1px; background: var(--line); }
+
+/* ---------- Lak-swatch (behandlingsliste og priskort) ---------- */
+.sw { --c1: #B3163F; --c2: #6E0E27; position: relative; overflow: hidden; background: radial-gradient(120% 90% at 30% 20%, var(--c1), var(--c2)); display: grid; place-items: center; }
+.sw::before { content: ""; width: 28%; aspect-ratio: 5 / 8; border-radius: 50% 50% 44% 44% / 64% 64% 36% 36%; background:
+  radial-gradient(60% 30% at 34% 22%, rgb(255 255 255 / .75), transparent 70%), var(--nail, linear-gradient(170deg, var(--c1), var(--c2)));
+  box-shadow: 0 10px 24px -8px rgb(0 0 0 / .45), inset 0 0 0 1px rgb(255 255 255 / .25); transform: rotate(-14deg); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.sw::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / .22) 48%, transparent 56%); }
+.sw.french { --nail: linear-gradient(180deg, #FFFFFF 0 30%, #F3D9D7 30%); }
+.sw.chrome { --nail: conic-gradient(from 200deg, #F1E7EA, #A89AA6, #FCF6F8, #8A7C88, #F1E7EA); }
+.sw.glitter { --nail: radial-gradient(circle, rgb(255 255 255 / .9) 0 1px, transparent 1.6px) 0 0 / 7px 7px, radial-gradient(circle, rgb(255 220 230 / .8) 0 1px, transparent 1.6px) 3px 4px / 9px 9px, linear-gradient(170deg, #E7A3B5, #9D2B4D); }
+.sw.long::before { width: 22%; aspect-ratio: 5 / 11; border-radius: 50% 50% 40% 40% / 78% 78% 22% 22%; }
+.sw.milk { --nail: linear-gradient(170deg, #FBF6F3, #E9DCD8); }
+.svc:hover .sw::before, .p-card:hover .sw::before { transform: rotate(-4deg) scale(1.06); }
+
+/* ---------- Behandlinger ---------- */
+.services { padding-block: clamp(80px, 10vw, 140px); }
+.services-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); }
+.services-intro { position: sticky; top: 120px; align-self: start; }
+.services-intro h2 { margin-bottom: 22px; }
+.services-intro .btn { margin-top: 30px; }
+.svc-list { list-style: none; border-top: 1px solid var(--line); }
+.svc { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; align-items: center; padding: 26px 0; border-bottom: 1px solid var(--line); }
+.svc .sw { width: 200px; aspect-ratio: 4 / 3; border-radius: 14px; }
+.svc h3 { font-stretch: var(--wide); font-weight: 750; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.01em; line-height: 1.1; margin-bottom: 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.svc h3 small { font: 500 15px var(--f-display); color: var(--muted); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.svc p { color: var(--muted); max-width: 46ch; }
+
+/* ---------- Negle (Prøv en farve + galleri) ---------- */
+.nail { aspect-ratio: 5 / 7; border-radius: 50% 50% 42% 42% / 62% 62% 30% 30%;
+  background: radial-gradient(48% 24% at 36% 20%, rgb(255 255 255 / .82), transparent 72%), linear-gradient(170deg, var(--n1), var(--n2) 45%, var(--n3));
+  box-shadow: 0 6px 14px -6px rgb(0 0 0 / .45), inset 0 -2px 0 rgb(0 0 0 / .08), inset 0 0 0 1px rgb(255 255 255 / .18);
+  transition: background .35s, aspect-ratio .35s, border-radius .35s; }
+[data-shape="mandel"] .nail { aspect-ratio: 5 / 9; border-radius: 50% 50% 40% 40% / 88% 88% 22% 22%; }
+[data-shape="kiste"] .nail { aspect-ratio: 5 / 9; border-radius: 6% 6% 40% 40% / 4% 4% 22% 22%; clip-path: polygon(25% 0, 75% 0, 100% 64%, 100% 100%, 0 100%, 0 64%); }
+[data-shape="firkant"] .nail { aspect-ratio: 5 / 6.2; border-radius: 12% 12% 42% 42% / 9% 9% 30% 30%; }
+[data-finish="mat"] .nail { background: linear-gradient(170deg, var(--n2), var(--n3)); box-shadow: 0 6px 14px -6px rgb(0 0 0 / .45), inset 0 -2px 0 rgb(0 0 0 / .08); filter: saturate(.85); }
+[data-finish="glimmer"] .nail { background:
+  radial-gradient(48% 24% at 36% 20%, rgb(255 255 255 / .7), transparent 72%),
+  radial-gradient(circle, rgb(255 255 255 / .95) 0 .9px, transparent 1.5px) 0 0 / 6px 6px,
+  radial-gradient(circle, rgb(255 236 200 / .8) 0 .9px, transparent 1.5px) 3px 2px / 8px 7px,
+  linear-gradient(170deg, var(--n1), var(--n2) 45%, var(--n3)); }
+[data-finish="fransk"] .nail { background: radial-gradient(48% 24% at 36% 20%, rgb(255 255 255 / .7), transparent 72%), linear-gradient(180deg, var(--n2) 0 28%, #F3DAD5 28.5%, #EBCBC5); }
+[data-finish="chrome"] .nail { background: radial-gradient(48% 24% at 36% 20%, rgb(255 255 255 / .9), transparent 72%), linear-gradient(115deg, var(--n1) 0%, var(--n3) 24%, #FFFFFF 40%, var(--n1) 52%, var(--n3) 72%, var(--n1) 100%); }
+
+.try { padding-bottom: clamp(80px, 10vw, 140px); }
+.try-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 6vw, 96px); align-items: center; }
+.stage { position: relative; aspect-ratio: 1 / 1; max-width: 100%; border-radius: 28px; overflow: hidden; background: #E4E2E0; touch-action: pan-y; }
+.stage canvas, .before { position: absolute; inset: 0; width: 100%; height: 100%; }
+.shot, .before { display: block; object-fit: cover; }
+.shot { opacity: 0; transition: opacity .45s ease; }
+.shot.on { opacity: 1; }
+.before { z-index: 1; }
+.before[hidden] { display: none; }
+.stage-load { position: absolute; inset: 0; display: grid; place-items: center; color: #6D5A5E; font-size: 15px; }
+.stage-load[hidden] { display: none; }
+.stage-cap { position: absolute; top: 18px; left: 20px; right: 20px; display: flex; justify-content: space-between; gap: 12px; z-index: 2; font-size: 14px; }
+.stage-cap { color: #3B3537; pointer-events: none; }
+.stage-cap b { font: italic 400 28px/1 var(--f-serif); }
+.stage-cap span { color: #6E6467; align-self: center; text-align: right; font-weight: 500; }
+.stage-ctrl { position: absolute; z-index: 3; left: 16px; right: 16px; bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+.stage-ctrl button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: rgb(255 255 255 / .85); color: #3B3537; font-size: 14px; font-weight: 600; cursor: pointer; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.stage-ctrl button:hover { background: #FFFFFF; }
+.stage-ctrl button[aria-pressed="true"] { background: #955462; color: #FFFFFF; }
+.live { position: absolute; z-index: 3; right: 16px; bottom: 22px; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #261519; pointer-events: none; }
+.live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #E0244E; box-shadow: 0 0 0 3px rgb(224 36 78 / .2); }
+.split { position: absolute; z-index: 2; top: 0; bottom: 0; left: 50%; width: 44px; margin-left: -22px; cursor: ew-resize; touch-action: none; }
+.split i { position: absolute; top: 0; bottom: 0; left: 21px; width: 2px; background: #FFFFFF; box-shadow: 0 0 0 1px rgb(0 0 0 / .12); }
+.split b { position: absolute; top: 50%; left: 4px; width: 36px; height: 36px; margin-top: -18px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 4px 14px rgb(0 0 0 / .25); display: grid; place-items: center; color: #261519; font-size: 15px; }
+.split span { position: absolute; top: 64px; padding: 3px 9px; border-radius: 999px; background: rgb(255 255 255 / .85); color: #3B3537; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.split span:first-of-type { right: 30px; } .split span:last-of-type { left: 30px; }
+.split:focus-visible b { outline: 2px solid var(--lacquer); outline-offset: 2px; }
+.colors.shades { grid-template-columns: repeat(5, 44px); }
+
+.try-text h2 { margin-bottom: 18px; }
+.try-text .lede { margin-bottom: 24px; font-size: 17px; }
+.ctrl { margin-bottom: 18px; }
+.ctrl legend { font-size: 14px; font-weight: 600; margin-bottom: 10px; display: flex; gap: 8px; }
+.ctrl legend output { color: var(--muted); font-weight: 500; }
+.opt { position: relative; display: inline-block; cursor: pointer; }
+.opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.opt input:focus-visible + span { outline: 2px solid var(--lacquer); outline-offset: 3px; }
+.colors { display: grid; grid-template-columns: repeat(6, 44px); gap: 10px; }
+.colors .opt span { display: block; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(55% 40% at 35% 28%, rgb(255 255 255 / .6), transparent 70%), var(--c); box-shadow: inset 0 -6px 12px rgb(0 0 0 / .18), 0 0 0 1px var(--line); transition: transform .15s, box-shadow .15s; }
+.colors .opt:hover span { transform: scale(1.08); }
+.colors .opt input:checked + span { box-shadow: inset 0 -6px 12px rgb(0 0 0 / .18), 0 0 0 3px var(--ground), 0 0 0 5px var(--text); }
+.segs { display: flex; flex-wrap: wrap; gap: 8px; }
+.segs .opt span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--field-line); background: var(--paper); font-size: 15px; font-weight: 500; transition: background .15s, color .15s, border-color .15s; }
+.segs .opt:hover span { border-color: var(--text); }
+.segs .opt input:checked + span { background: var(--text); color: var(--ground); border-color: var(--text); }
+.skins { display: flex; gap: 10px; }
+.skins .opt span { display: block; width: 44px; height: 44px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1px var(--line); }
+.skins .opt input:checked + span { box-shadow: 0 0 0 3px var(--ground), 0 0 0 5px var(--text); }
+.try-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+/* ---------- Behandlinger og priser (enkel liste) ---------- */
+.menu, .about { padding-block: clamp(72px, 9vw, 120px); }
+.try, .faq { padding-bottom: clamp(72px, 9vw, 120px); }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px 48px; flex-wrap: wrap; margin-bottom: 32px; }
+.sec-head .lede { max-width: 44ch; font-size: 17px; }
+.menu-list { list-style: none; border-top: 1px solid var(--line); }
+.menu-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 12px 28px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.m-name h3 { font-stretch: var(--wide); font-weight: 700; font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -.01em; line-height: 1.2; }
+.m-name p { color: var(--muted); font-size: 15px; }
+.m-time { color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums; }
+.m-price { font-stretch: var(--wide); font-weight: 800; font-size: 20px; font-variant-numeric: tabular-nums; min-width: 6ch; text-align: right; }
+.m-book { min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1.5px solid var(--field-line); background: transparent; color: var(--text); font: 600 15px var(--f-display); cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.m-book:hover { background: var(--lacquer); border-color: var(--lacquer); color: var(--on-lacquer); }
+@media (max-width: 640px) {
+  .menu-list li { grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; }
+  .m-time { grid-column: 1; grid-row: 2; }
+  .m-price { grid-column: 2; grid-row: 1; }
+  .m-book { grid-column: 2; grid-row: 2; }
+}
+/* ---------- Galleri ---------- */
+.gallery { padding-bottom: clamp(80px, 10vw, 140px); }
+.gallery-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.gallery-head p { color: var(--muted); max-width: 40ch; }
+.looks { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.look { border-radius: 20px; overflow: hidden; background: var(--paper); display: flex; flex-direction: column; }
+.look-art { aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; gap: 4%; padding: 8%; background: radial-gradient(80% 70% at 50% 40%, color-mix(in srgb, var(--n2) 30%, var(--paper)), color-mix(in srgb, var(--n2) 8%, var(--paper))); }
+.look-art .nail { width: 12%; }
+.look-art .nail:nth-child(1) { transform: translateY(14%) rotate(-10deg); width: 11%; }
+.look-art .nail:nth-child(2) { transform: translateY(-4%) rotate(-4deg); }
+.look-art .nail:nth-child(3) { transform: translateY(-10%); width: 13%; }
+.look-art .nail:nth-child(4) { transform: translateY(-4%) rotate(4deg); }
+.look-art .nail:nth-child(5) { transform: translateY(12%) rotate(10deg); width: 10%; }
+.look-body { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px 18px; }
+.look-body b { display: block; font-stretch: var(--wide); font-weight: 750; font-size: 18px; letter-spacing: -.01em; line-height: 1.2; }
+.look-body span { color: var(--muted); font-size: 14px; }
+
+/* ---------- Gavekort ---------- */
+.gift { background: var(--band); color: var(--on-band); }
+.gift-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 620px; }
+.gift-img { position: relative; overflow: hidden; background: radial-gradient(90% 80% at 30% 30%, #5A1427, #1C0A0F); display: grid; place-items: center; padding: 48px 24px; perspective: 900px; }
+.card { width: min(420px, 84%); aspect-ratio: 85.6 / 54; border-radius: 18px; padding: 22px 24px; display: flex; flex-direction: column; justify-content: space-between; color: #FBF3F2;
+  background: radial-gradient(70% 90% at 20% 10%, rgb(255 255 255 / .35), transparent 60%), linear-gradient(140deg, #D9395F, #8E0F31 70%, #5C0A20);
+  box-shadow: 0 40px 70px -30px rgb(0 0 0 / .8), inset 0 0 0 1px rgb(255 255 255 / .2); transform: rotate(-7deg); transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.gift-img:hover .card:not(.back) { transform: rotate(-3deg) rotateY(-10deg) translateY(-6px); }
+.card .c-top { display: flex; justify-content: space-between; align-items: baseline; }
+.card .c-top span:first-child { font: italic 400 28px var(--f-serif); }
+.card .c-top span:last-child { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
+.card .c-val { font-stretch: var(--wide); font-weight: 800; font-size: clamp(34px, 4vw, 48px); letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+.card .c-val small { font-size: .45em; font-weight: 600; letter-spacing: 0; opacity: .85; }
+.card.back { position: absolute; transform: rotate(6deg) translate(18%, -16%); opacity: .55; background: linear-gradient(140deg, #F2B5C4, #C9738A); }
+.gift-text { padding-block: clamp(64px, 8vw, 120px); padding-left: max(16px, var(--gutter)); padding-right: max(16px, var(--gutter), env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; justify-content: center; max-width: 640px; }
+.gift-text h2 { margin-bottom: 24px; }
+.gift-text .lede { color: var(--on-band-muted); margin-bottom: 36px; }
+.gift-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--band-line); border: 1px solid var(--band-line); border-radius: 16px; overflow: hidden; margin-bottom: 36px; }
+.gift-opts button { all: unset; box-sizing: border-box; cursor: pointer; background: var(--band-2); padding: 20px 18px; transition: background .2s; }
+.gift-opts button:hover { background: color-mix(in srgb, var(--band-2) 80%, #FFFFFF); }
+.gift-opts button[aria-pressed="true"] { background: var(--lacquer); }
+.gift-opts button:focus-visible { outline: 2px solid var(--blush); outline-offset: -4px; }
+.gift-opts b { display: block; font-stretch: var(--wide); font-weight: 750; font-size: 20px; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.gift-opts span { color: var(--on-band-muted); font-size: 15px; line-height: 1.45; }
+.gift-opts button[aria-pressed="true"] span { color: rgb(255 255 255 / .85); }
+.gift-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- Priser ---------- */
+.prices { padding-block: clamp(80px, 10vw, 140px) 0; }
+.prices-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+.prices-head p { color: var(--muted); max-width: 44ch; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; list-style: none; }
+.p-card { background: var(--paper); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: transform .25s, box-shadow .25s; }
+.p-card:hover { transform: translateY(-3px); box-shadow: 0 18px 40px -20px rgb(38 21 25 / .45); }
+.p-card .sw { aspect-ratio: 16 / 10; }
+.p-card .sw::before { width: 16%; }
+.p-card .sw.long::before { width: 13%; }
+.tag { position: absolute; z-index: 2; top: 12px; left: 12px; padding: 5px 10px; border-radius: 999px; background: rgb(38 21 25 / .8); color: #FBF3F2; font-size: 13px; font-weight: 600; }
+.p-body { padding: 18px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+.p-body h3 { font-stretch: var(--wide); font-weight: 750; font-size: 21px; letter-spacing: -.01em; line-height: 1.15; }
+.p-variant { color: var(--muted); font-size: 15px; margin: 2px 0 14px; }
+.specs { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin-bottom: 18px; }
+.specs li { padding: 4px 10px; border-radius: 999px; background: var(--ground); font-size: 13px; font-weight: 500; }
+.p-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.p-price { font-stretch: var(--wide); font-weight: 800; font-size: 24px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.p-price small { font-size: 15px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+.p-book { font-size: 15px; font-weight: 600; color: var(--lacquer); text-decoration: underline; text-underline-offset: 4px; background: none; border: 0; cursor: pointer; padding: 8px 0; }
+
+/* ---------- Om os ---------- */
+.about { padding-block: clamp(80px, 10vw, 140px); }
+.about-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+.shelf-box { border-radius: 24px; overflow: hidden; background: radial-gradient(90% 70% at 50% 30%, color-mix(in srgb, var(--lacquer) 14%, var(--paper)), var(--paper)); padding: clamp(36px, 6vw, 64px) clamp(16px, 4vw, 40px) 0; }
+.shelf { list-style: none; display: flex; align-items: flex-end; justify-content: center; gap: 4%; border-bottom: 12px solid color-mix(in srgb, var(--text) 18%, var(--paper)); }
+.bottle { flex: 1 1 0; max-width: 92px; display: flex; flex-direction: column; align-items: center; }
+.bottle .cap { width: 42%; aspect-ratio: 1 / var(--cap, 1.6); border-radius: 6px 6px 3px 3px; background: linear-gradient(90deg, #120A0C, #4A3A3E 35%, #1A1012 70%, #2A1E22); }
+.bottle .neck { width: 54%; height: 6px; background: color-mix(in srgb, var(--c) 60%, #000); border-radius: 2px; }
+.bottle .glass { position: relative; width: 100%; aspect-ratio: 1 / var(--h, 1.05); border-radius: 20% 20% 24% 24% / 16% 16% 20% 20%;
+  background: radial-gradient(30% 50% at 26% 34%, rgb(255 255 255 / .55), transparent 70%), linear-gradient(90deg, color-mix(in srgb, var(--c) 60%, #000), var(--c) 30%, color-mix(in srgb, var(--c) 82%, #FFFFFF) 55%, var(--c) 75%, color-mix(in srgb, var(--c) 55%, #000));
+  box-shadow: inset 0 0 0 3px rgb(255 255 255 / .25), 0 18px 24px -14px rgb(0 0 0 / .5); }
+.bottle .glass::after { content: attr(data-nr); position: absolute; left: 50%; bottom: 16%; transform: translateX(-50%); font-size: 10px; font-weight: 700; letter-spacing: .1em; color: rgb(255 255 255 / .85); background: rgb(0 0 0 / .18); padding: 2px 6px; border-radius: 4px; }
+.shelf-cap { display: flex; justify-content: space-between; gap: 12px; padding: 14px 4px 18px; font-size: 14px; color: var(--muted); }
+.shelf-cap b { color: var(--text); font: italic 400 22px var(--f-serif); }
+.about h2 { margin-bottom: 22px; }
+.checks { list-style: none; border-top: 1px solid var(--line); }
+.checks li { display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); font-weight: 500; }
+.checks svg { flex: none; width: 22px; height: 22px; margin-top: 2px; stroke: var(--lacquer); fill: none; stroke-width: 2.4; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.facts div { background: var(--paper); border-radius: 16px; padding: 16px 16px 18px; }
+.facts b { display: block; font-stretch: var(--wide); font-weight: 800; font-size: 28px; letter-spacing: -.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.facts span { color: var(--muted); font-size: 14px; line-height: 1.35; display: block; }
+
+/* ---------- Trin ---------- */
+.steps-sec { padding-bottom: clamp(80px, 10vw, 140px); }
+.steps-sec h2 { margin-bottom: 48px; }
+.steps { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; counter-reset: step; }
+.steps li { background: var(--paper); border-radius: 20px; padding: 30px 28px 34px; counter-increment: step; }
+.steps li::before { content: counter(step); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--lacquer); color: var(--on-lacquer); font-weight: 700; margin-bottom: 26px; }
+.steps h3 { font-stretch: var(--wide); font-weight: 750; font-size: 24px; margin-bottom: 8px; }
+.steps p { color: var(--muted); }
+
+/* ---------- FAQ ---------- */
+.faq { padding-bottom: clamp(80px, 10vw, 140px); }
+.faq-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px); }
+.faq-grid h2 { margin-bottom: 18px; }
+.faq-list { border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; font-stretch: var(--wide); font-weight: 700; font-size: clamp(18px, 1.8vw, 22px); letter-spacing: -.01em; line-height: 1.25; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line);
+  background: linear-gradient(var(--text), var(--text)) center / 12px 2px no-repeat, linear-gradient(var(--text), var(--text)) center / 2px 12px no-repeat; transition: transform .25s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { color: var(--muted); max-width: 60ch; padding-bottom: 22px; margin-top: -6px; }
+
+/* ---------- Kontakt + booking ---------- */
+.contact { background: var(--band); color: var(--on-band); padding-block: clamp(80px, 10vw, 140px); }
+.contact-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(32px, 5vw, 80px); }
+.contact-info { position: sticky; top: 120px; align-self: start; }
+.contact h2 { margin-bottom: 36px; }
+.big-phone { display: inline-flex; align-items: center; min-height: 48px; text-decoration: none; font-stretch: var(--wide); font-weight: 800; font-size: clamp(34px, 4.4vw, 56px); letter-spacing: -.02em; line-height: 1; margin-bottom: 8px; font-variant-numeric: tabular-nums; }
+.big-phone:hover { color: var(--lacquer); }
+.contact-meta { color: var(--on-band-muted); margin-bottom: 36px; }
+.hours { width: 100%; border-collapse: collapse; font-size: 16px; font-variant-numeric: tabular-nums; }
+.hours caption { text-align: left; font-weight: 600; margin-bottom: 10px; }
+.hours, .hours caption { color: var(--on-band); }
+.hours td { padding: 11px 0; border-bottom: 1px solid var(--band-line); color: var(--on-band); }
+.hours td:last-child { text-align: right; color: var(--on-band-muted); }
+.hours tr.today td { color: var(--on-band); font-weight: 600; }
+.hours tr.today td:first-child::after { content: " (i dag)"; font-weight: 400; color: var(--lacquer); }
+
+form.book { background: var(--paper); color: var(--text); border-radius: 24px; padding: clamp(22px, 4vw, 44px); }
+form.book > h3 { font-stretch: var(--wide); font-weight: 800; font-size: 30px; letter-spacing: -.01em; margin-bottom: 6px; }
+form.book > p { color: var(--muted); margin-bottom: 26px; }
+.bstep { padding-block: 22px; border-top: 1px solid var(--line); }
+.bstep legend { display: flex; align-items: center; gap: 12px; font-stretch: var(--wide); font-weight: 750; font-size: 19px; padding: 0; float: left; width: 100%; margin-bottom: 16px; }
+.bstep legend + * { clear: both; }
+.bstep legend i { font-style: normal; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--text); color: var(--paper); font-size: 14px; font-stretch: normal; }
+.pick-svc { display: grid; gap: 8px; }
+.pick-svc .opt { display: block; }
+.pick-svc .opt span { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1.5px solid var(--field-line); background: var(--field); transition: border-color .15s, background .15s; }
+.pick-svc .opt span b { font-weight: 600; }
+.pick-svc .opt span small { color: var(--muted); font-size: 14px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pick-svc .opt:hover span { border-color: var(--muted); }
+.pick-svc .opt input:checked + span { border-color: var(--lacquer); background: color-mix(in srgb, var(--lacquer) 8%, var(--field)); box-shadow: inset 0 0 0 1px var(--lacquer); }
+.days { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 10px; scroll-snap-type: x proximity; }
+.days .opt { flex: none; scroll-snap-align: start; }
+.days .opt span { display: grid; justify-items: center; width: 64px; padding: 10px 0; border-radius: 14px; border: 1.5px solid var(--field-line); background: var(--field); line-height: 1.2; transition: border-color .15s; }
+.days .opt span small { font-size: 12px; color: var(--muted); text-transform: capitalize; }
+.days .opt span b { font-size: 22px; font-stretch: var(--wide); font-weight: 750; font-variant-numeric: tabular-nums; }
+.days .opt:hover span { border-color: var(--muted); }
+.days .opt input:checked + span { background: var(--text); border-color: var(--text); color: var(--paper); }
+.days .opt input:checked + span small { color: inherit; opacity: .75; }
+.days .opt input:disabled + span { opacity: .4; cursor: not-allowed; }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 8px; }
+.slots .opt span { display: grid; place-items: center; min-height: 48px; border-radius: 12px; border: 1.5px solid var(--field-line); background: var(--field); font-weight: 600; font-variant-numeric: tabular-nums; transition: border-color .15s; }
+.slots .opt:hover span { border-color: var(--muted); }
+.slots .opt input:checked + span { background: var(--lacquer); border-color: var(--lacquer); color: var(--on-lacquer); }
+.slots .opt input:disabled + span { background: var(--busy); border-color: transparent; color: var(--muted); text-decoration: line-through; cursor: not-allowed; }
+.slot-note { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+label.field { display: block; margin-bottom: 14px; font-size: 14px; font-weight: 600; }
+input[type="text"], input[type="tel"], textarea { width: 100%; margin-top: 6px; padding: 14px 16px; background: var(--field); border: 1.5px solid var(--field-line); border-radius: 12px; color: var(--text); font: 400 16px var(--f-display); transition: border-color .2s; }
+input:focus, textarea:focus { outline: none; border-color: var(--lacquer); }
+textarea { min-height: 96px; resize: vertical; }
+.summary { margin: 4px 0 16px; padding: 18px 20px; border-radius: 16px; background: var(--band); color: var(--on-band); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.summary b { display: block; font-size: 17px; }
+.summary span { color: var(--on-band-muted); font-size: 15px; }
+.summary strong { font-stretch: var(--wide); font-weight: 800; font-size: 26px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+form.book .btn-lak { width: 100%; }
+input[aria-invalid="true"] { border-color: #B3334A; }
+.form-ok { margin-top: 14px; padding: 16px 18px; border-radius: 14px; background: var(--ok-bg); color: var(--ok-fg); font-weight: 500; }
+.form-ok b { display: block; margin-bottom: 4px; }
+
+footer { background: var(--band); color: var(--on-band-muted); font-size: 15px; padding-bottom: 40px; }
+.foot { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding-top: 28px; border-top: 1px solid var(--band-line); }
+.foot a { text-decoration: none; display: inline-block; padding-block: 12px; margin-block: -12px; }
+.foot a:hover { color: var(--on-band); }
+
+.callbar { display: none; }
+
+@media (max-width: 1000px) {
+  .services-grid, .about-grid, .contact-grid, .try-grid, .faq-grid { grid-template-columns: minmax(0, 1fr); }
+  .contact-grid > *, .try-grid > *, form.book { min-width: 0; }
+  .services-intro, .contact-info { position: static; }
+  .gift-grid { grid-template-columns: 1fr; }
+  .gift-img { min-height: 340px; }
+  .gift-text { padding-left: max(16px, var(--gutter), env(safe-area-inset-left, 0px)); }
+  .hero-foot { grid-template-columns: 1fr; }
+  .status { max-width: 360px; }
+  .cards, .looks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav-links a:not(.btn) { padding-inline: 10px; }
+}
+@media (max-width: 760px) {
+  .hero::after { background: linear-gradient(180deg, rgb(247 244 244 / .55) 0%, rgb(247 244 244 / .82) 45%, #F7F4F4 100%); }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .nav { top: calc(10px + env(safe-area-inset-top, 0px)); }
+  .nav-bar { padding-left: 18px; }
+  .burger { display: grid; }
+  .nav-links { display: none; position: absolute; top: 72px; left: max(16px, var(--gutter)); right: max(16px, var(--gutter)); flex-direction: column; align-items: stretch; gap: 2px; padding: 10px; border-radius: 22px; background: var(--glass-strong); border: 1px solid var(--line); box-shadow: 0 16px 40px -20px rgb(59 53 55 / .35); }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: 14px 16px; font-size: 17px; }
+  .nav-links .btn { margin: 6px 0 0; }
+  .hero-inner { padding-block: 148px 32px; }
+  .hero-pause { top: calc(86px + env(safe-area-inset-top, 0px)); min-height: 44px; font-size: 13px; }
+  .hero-foot p { font-size: 17px; }
+  .status { min-width: 0; }
+  .svc { grid-template-columns: 112px minmax(0, 1fr); gap: 18px; padding: 20px 0; }
+  .svc .sw { width: 112px; border-radius: 10px; }
+  .svc h3 { font-size: 19px; }
+  .svc p { font-size: 15px; }
+  .colors { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .colors .opt span { width: 100%; height: auto; aspect-ratio: 1; }
+  .colors.shades { grid-template-columns: repeat(5, minmax(0, 1fr)); max-width: 300px; }
+  .gift-opts { grid-template-columns: 1fr; }
+  .cards, .looks, .steps { grid-template-columns: 1fr; }
+  .facts b { font-size: 22px; }
+  .row { grid-template-columns: 1fr; gap: 0; }
+  .callbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+    padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    background: var(--glass-strong); border-top: 1px solid var(--line); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .callbar .btn { min-height: 50px; }
+  .callbar .btn-line { color: var(--text); }
+}
+</style>
+
+<a class="skip" href="#booking">Gå direkte til booking</a>
+<header class="nav" id="nav">
+  <div class="wrap">
+    <div class="nav-bar">
+      <a href="#top" class="logo" aria-label="Studio Lak, til toppen"><i aria-hidden="true"></i><span>Studio Lak</span></a>
+      <nav class="nav-links" id="links" aria-label="Hovedmenu">
+        <a href="#behandlinger">Priser</a>
+        <a href="#proev">Prøv farver</a>
+        <a href="#om">Om os</a>
+        <a href="#kontakt">Kontakt</a>
+        <a href="#booking" class="btn btn-lak">Book tid</a>
+      </nav>
+      <button class="burger" id="burger" aria-label="Åbn menu" aria-expanded="false" aria-controls="links">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <video class="hero-video" id="heroVideo" src="salon.mp4" poster="salon.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+  <div class="wrap hero-inner">
+    <h1 class="display">Smukke negle <em>i</em> rolige omgivelser</h1>
+    <div class="hero-foot">
+      <div>
+        <p>Gelé lak, manicure, pedicure og forlængelse. Prøv din farve her på siden, og book din tid på under et minut.</p>
+        <div class="hero-ctas">
+          <a href="#booking" class="btn btn-lak">Book tid</a>
+          <a href="#proev" class="btn btn-line">Prøv farver</a>
+        </div>
+      </div>
+      <aside class="status" aria-label="Åbningsstatus">
+        <div class="status-now"><span class="dot" id="dot"></span><span id="now">Åbningstider</span></div>
+        <div class="status-sub" id="nowSub">Man–fre 10–18 · tor 10–20 · lør 10–15</div>
+        <a class="next" href="#booking" id="nextFree">Første ledige tid</a>
+        <small id="nextFreeSub">Se ledige tider og book</small>
+      </aside>
+    </div>
+  </div>
+</section>
+<div class="strip" aria-hidden="true"></div>
+
+<section class="menu" id="behandlinger">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display">Behandlinger <em>og</em> priser</h2>
+      <p class="lede">Alle priser er inkl. moms. Har du gammel gelé på, fjerner vi den gratis ved ny behandling. Nail art fra 20 kr. pr. negl.</p>
+    </div>
+    <ul class="menu-list">
+      <li><div class="m-name"><h3>Gelé lak, hænder</h3><p>Holdbar farve i 2–3 uger</p></div><span class="m-time">45 min</span><span class="m-price">349 kr.</span><button type="button" class="m-book p-book" data-svc="gele" aria-label="Book Gelé lak, hænder">Book</button></li>
+      <li><div class="m-name"><h3>Manicure med gelé lak</h3><p>Neglebånd, form og lak</p></div><span class="m-time">60 min</span><span class="m-price">449 kr.</span><button type="button" class="m-book p-book" data-svc="mani" aria-label="Book Manicure med gelé lak">Book</button></li>
+      <li><div class="m-name"><h3>Nyt sæt forlængelse</h3><p>Gelé eller akryl, inkl. farve</p></div><span class="m-time">90 min</span><span class="m-price">549 kr.</span><button type="button" class="m-book p-book" data-svc="nyt" aria-label="Book Nyt sæt forlængelse">Book</button></li>
+      <li><div class="m-name"><h3>Opfyldning</h3><p>På dit eksisterende sæt</p></div><span class="m-time">75 min</span><span class="m-price">449 kr.</span><button type="button" class="m-book p-book" data-svc="opf" aria-label="Book Opfyldning">Book</button></li>
+      <li><div class="m-name"><h3>Pedicure med lak</h3><p>Fodbad, hård hud og gelé lak</p></div><span class="m-time">60 min</span><span class="m-price">449 kr.</span><button type="button" class="m-book p-book" data-svc="pedi" aria-label="Book Pedicure med lak">Book</button></li>
+      <li><div class="m-name"><h3>Fjernelse og pleje</h3><p>Skånsom fjernelse og styrkende kur</p></div><span class="m-time">30 min</span><span class="m-price">199 kr.</span><button type="button" class="m-book p-book" data-svc="fjern" aria-label="Book Fjernelse og pleje">Book</button></li>
+    </ul>
+  </div>
+</section>
+
+<section class="try" id="proev" aria-labelledby="try-h">
+  <div class="wrap try-grid">
+    <div class="stage" id="stage">
+      <canvas id="nailCanvas" width="1000" height="1000" role="img" aria-label="Foto af en hånd med negle i kirsebær"></canvas>
+      <p class="stage-load" id="stageLoad">Indlæser billede …</p>
+      <img class="before" id="beforeImg" src="haand.jpg" alt="" hidden>
+      <div class="stage-cap"><b id="capName">Mælk</b><span id="capMeta">Fransk · Mandel · Mellem · Original</span></div>
+      <div class="split" id="split" role="slider" tabindex="0" aria-label="Sammenlign før og efter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" hidden><i></i><b aria-hidden="true">↔</b><span>Før</span><span>Efter</span></div>
+      <div class="stage-ctrl"><button type="button" id="cmpBtn" aria-pressed="false">Før / efter</button></div>
+    </div>
+    <div class="try-text">
+      <h2 class="display" id="try-h">Prøv farven, <em>før</em> du kommer</h2>
+      <p class="lede">Vælg farve, stil, facon og længde, og se resultatet på en rigtig hånd. Ved fransk bliver farven brugt på spidsen. Dit valg følger med, når du booker.</p>
+      <fieldset class="ctrl"><legend>Farve <output id="outColor">Kirsebær</output></legend><div class="colors" id="ctlColor"></div></fieldset>
+      <fieldset class="ctrl"><legend>Nuance <output id="outShade">Original</output></legend><div class="colors shades" id="ctlShade"></div></fieldset>
+      <fieldset class="ctrl"><legend>Stil</legend><div class="segs" id="ctlStyle"></div></fieldset>
+      <fieldset class="ctrl"><legend>Facon</legend><div class="segs" id="ctlShape"></div></fieldset>
+      <fieldset class="ctrl"><legend>Længde</legend><div class="segs" id="ctlLength"></div></fieldset>
+      <div class="try-ctas">
+        <button type="button" class="btn btn-lak" id="bookLook">Book med dette look</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="about" id="om">
+  <div class="wrap about-grid">
+    <div>
+      <h2 class="display">Rolige hænder <em>og</em> rene redskaber</h2>
+      <p class="lede">Vi tager os tid til at forme neglene, så de passer til dine hænder. Du vælger farven, vi sørger for, at den holder.</p>
+    </div>
+    <ul class="checks">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Alle redskaber steriliseres efter hver kunde</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>HEMA-fri gelé, hvis du har følsom hud</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Gratis reparation, hvis en negl knækker inden for 7 dage</li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Åbent torsdag til kl. 20 og lørdag 10–15</li>
+    </ul>
+  </div>
+</section>
+
+
+
+<section class="contact" id="kontakt">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2 class="display">Book din tid</h2>
+        <a class="big-phone" href="tel:+4512345678">12 34 56 78</a>
+        <p class="contact-meta">hej@studiolak.dk</p>
+        <table class="hours" id="hours">
+          <caption>Åbningstider</caption>
+          <tr data-days="1"><td>Mandag</td><td>10–18</td></tr>
+          <tr data-days="2"><td>Tirsdag</td><td>10–18</td></tr>
+          <tr data-days="3"><td>Onsdag</td><td>10–18</td></tr>
+          <tr data-days="4"><td>Torsdag</td><td>10–20</td></tr>
+          <tr data-days="5"><td>Fredag</td><td>10–18</td></tr>
+          <tr data-days="6"><td>Lørdag</td><td>10–15</td></tr>
+          <tr data-days="0"><td>Søndag</td><td>Lukket</td></tr>
+        </table>
+      </div>
+
+      <form class="book" id="booking" novalidate>
+        <h3>Book en tid</h3>
+        <p>Vælg behandling, dag og tid. Vi bekræfter tiden med en sms.</p>
+        <fieldset class="bstep"><legend><i>1</i>Behandling</legend><div class="pick-svc" id="pickSvc"></div></fieldset>
+        <fieldset class="bstep"><legend><i>2</i>Dag</legend><div class="days" id="pickDay"></div></fieldset>
+        <fieldset class="bstep"><legend><i>3</i>Tidspunkt</legend><div class="slots" id="pickTime"></div><p class="slot-note">Overstregede tider er optaget.</p></fieldset>
+        <fieldset class="bstep"><legend><i>4</i>Dine oplysninger</legend>
+          <div>
+            <div class="row">
+              <label class="field" for="f-navn">Navn (påkrævet)<input type="text" id="f-navn" name="navn" autocomplete="name" placeholder="Dit navn" aria-required="true"></label>
+              <label class="field" for="f-tlf">Telefon (påkrævet)<input type="tel" id="f-tlf" name="telefon" autocomplete="tel" placeholder="12 34 56 78" aria-required="true"></label>
+            </div>
+            <label class="field" for="f-besked">Ønsker til farve og facon<textarea id="f-besked" name="besked" placeholder="Fx farve, længde eller et billede af det, du drømmer om"></textarea></label>
+          </div>
+        </fieldset>
+        <button class="btn btn-lak" type="submit">Send booking</button>
+        <div class="form-ok" id="ok" role="status" hidden></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="yr">2026</span> Studio Lak</span>
+    <span><a href="tel:+4512345678">Tlf. 12 34 56 78</a> · hej@studiolak.dk</span>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a href="tel:+4512345678" class="btn btn-line">Ring</a>
+  <a href="#booking" class="btn btn-lak">Book tid</a>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  document.documentElement.lang = 'da';
+
+  /* ---------- Menu ---------- */
+  const nav = $('nav');
+  const onScroll = () => nav.classList.toggle('solid', window.scrollY > 60);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  const burger = $('burger'), links = $('links');
+  burger.addEventListener('click', () => { const o = links.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); burger.setAttribute('aria-expanded', false); }));
+  $('yr').textContent = new Date().getFullYear();
+
+  /* ---------- Farver ---------- */
+  const hexRgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (h, w, t) => { const a = hexRgb(h), b = hexRgb(w); return 'rgb(' + a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(',') + ')'; };
+  const tones = hex => ({ '--n1': mix(hex, '#FFFFFF', .38), '--n2': hex, '--n3': mix(hex, '#000000', .42) });
+  const setTones = (el, hex) => { const t = tones(hex); for (const k in t) el.style.setProperty(k, t[k]); };
+
+  const COLORS = [
+    { n: 'Kirsebær', c: '#B3163F' }, { n: 'Bordeaux', c: '#5C0E22' }, { n: 'Nude', c: '#D9AFA6' },
+    { n: 'Mælk', c: '#F1E8E3' }, { n: 'Koral', c: '#F06A4E' }, { n: 'Pæon', c: '#F2A0B6' },
+    { n: 'Lavendel', c: '#B9A3D6' }, { n: 'Himmel', c: '#8FB8D8' }, { n: 'Skovgrøn', c: '#2F4A3A' },
+    { n: 'Sand', c: '#C9A27C' }, { n: 'Midnat', c: '#1B1A2E' }, { n: 'Sort', c: '#141113' }
+  ];
+  const FINISH = [{ v: 'blank', n: 'Blank' }, { v: 'mat', n: 'Mat' }, { v: 'glimmer', n: 'Glimmer' }, { v: 'fransk', n: 'Fransk' }, { v: 'chrome', n: 'Chrome' }];
+  const SHAPE = [{ v: 'oval', n: 'Oval' }, { v: 'mandel', n: 'Mandel' }, { v: 'kiste', n: 'Kiste' }, { v: 'firkant', n: 'Firkantet' }];
+  const SHADES = [{ n: 'Meget lys', w: '#FFFFFF', t: .5 }, { n: 'Lys', w: '#FFFFFF', t: .25 }, { n: 'Original', t: 0 }, { n: 'Mørk', w: '#000000', t: .25 }, { n: 'Meget mørk', w: '#000000', t: .48 }];
+  const look = { color: 3, finish: 'fransk', shade: 2, shape: 'mandel', length: 'mellem' };
+  const toHex = rgb => '#' + rgb.map(v => Math.round(v).toString(16).padStart(2, '0')).join('');
+  const mixRgb = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+  const shadeHex = (hex, s) => { const sh = SHADES[s]; return sh.t ? toHex(mixRgb(hexRgb(hex), hexRgb(sh.w), sh.t)) : hex; };
+
+  const radios = (box, name, items, val, label, render) => {
+    box.innerHTML = items.map((it, i) => {
+      const v = val(it, i), id = `${name}-${i}`;
+      return `<label class="opt" for="${id}" title="${label(it)}"><input type="radio" id="${id}" name="${name}" value="${v}"><span ${render ? render(it, i) : ''}>${render ? '<span class="sr-only">' + label(it) + '</span>' : label(it)}</span></label>`;
+    }).join('');
+  };
+  radios($('ctlColor'), 'farve', COLORS, (c, i) => i, c => c.n, c => `style="--c:${c.c}"`);
+  const STYLES = [{ v: 'blank', n: 'Helfarvet' }, { v: 'fransk', n: 'Fransk' }];
+  radios($('ctlStyle'), 'stil', STYLES, s => s.v, s => s.n);
+  radios($('ctlShape'), 'facon', SHAPE, s => s.v, s => s.n);
+  radios($('ctlLength'), 'laengde', [{ v: 'kort', n: 'Kort' }, { v: 'mellem', n: 'Mellem' }, { v: 'lang', n: 'Lang' }], s => s.v, s => s.n);
+  const renderShades = () => radios($('ctlShade'), 'nuance', SHADES, (s, i) => i, s => s.n, (s, i) => `style="--c:${shadeHex(COLORS[look.color].c, i)}"`);
+
+  /* ---------- Prøv en farve: lak, facon og længde lagt ind i fotoet ---------- */
+  // form/<facon>-<længde>-a.png: rød = negl, grøn = skygge under forlængelsen, blå = mørkere kant
+  // form/<facon>-<længde>-b.png: rød = overfladestruktur, grøn = neglens runding, blå = glans
+  const LENGTHS = [{ v: 'kort', n: 'Kort' }, { v: 'mellem', n: 'Mellem' }, { v: 'lang', n: 'Lang' }];
+  const stage = $('stage'), cv = $('nailCanvas'), g2 = cv.getContext('2d', { willReadFrequently: true }), beforeImg = $('beforeImg');
+  const RES = cv.width, cache = {};
+  let base = null, out = null, splitGoal = 0, token = 0;
+  const loadImg = src => new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; });
+  const pixels = im => { const c = document.createElement('canvas'); c.width = c.height = RES; const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0, RES, RES); return x.getImageData(0, 0, RES, RES).data; };
+  const variant = key => cache[key] || (cache[key] = Promise.all([loadImg(`form/${key}-a.png`), loadImg(`form/${key}-b.png`), loadImg(`form/${key}-c.png`)]).then(([ia, ib, ic]) => {
+    const A = pixels(ia), B = pixels(ib), C = pixels(ic), idx = [];
+    for (let i = 0; i < RES * RES; i++) if (A[i * 4] > 0 || A[i * 4 + 1] > 0) idx.push(i);
+    const n = idx.length, v = { idx: Int32Array.from(idx), m: new Float32Array(n), sh: new Float32Array(n), ei: new Float32Array(n), det: new Float32Array(n), form: new Float32Array(n), spec: new Float32Array(n), tip: new Float32Array(n) };
+    idx.forEach((p, k) => { const q = p * 4; v.m[k] = A[q] / 255; v.sh[k] = A[q + 1] / 255; v.ei[k] = A[q + 2] / 255; v.det[k] = (B[q] - 128) / 8; v.form[k] = (B[q + 1] - 128) / 12; v.spec[k] = B[q + 2] / 20; v.tip[k] = C[q] / 255; });
+    return v;
+  }));
+  // sRGB <-> CIELAB (D65)
+  const lin = c => (c /= 255) <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4);
+  const hexLab = hex => {
+    const [r, g, b] = hexRgb(hex).map(lin);
+    const f = t => t > .008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116;
+    const X = f((.4124 * r + .3576 * g + .1805 * b) / .95047), Y = f(.2126 * r + .7152 * g + .0722 * b), Z = f((.0193 * r + .1192 * g + .9505 * b) / 1.08883);
+    return [116 * Y - 16, 500 * (X - Y), 200 * (Y - Z)];
+  };
+  const finv = t => { const t3 = t * t * t; return t3 > .008856 ? t3 : (t - 16 / 116) / 7.787; };
+  const gam = c => 255 * (c <= .0031308 ? 12.92 * c : 1.055 * Math.pow(Math.max(c, 0), 1 / 2.4) - .055);
+  const compose = async () => {
+    const my = ++token;
+    const key = `${look.shape}-${look.length}`;
+    const [v] = await Promise.all([variant(key), base ? null : loadImg('haand.jpg').then(im => { base = pixels(im); out = new ImageData(RES, RES); })]);
+    if (my !== token) return;
+    const o = out.data; o.set(base);
+    const pick = hexLab(shadeHex(COLORS[look.color].c, look.shade)), french = look.finish === 'fransk';
+    const nude = hexLab('#F1D3CB');   // gennemsigtig rosa base til fransk
+    for (let j = 0; j < v.idx.length; j++) {
+      const q = v.idx[j] * 4, m = v.m[j], sh = v.sh[j];
+      if (sh > 0) { const f = 1 - sh * .35; o[q] *= f; o[q + 1] *= f; o[q + 2] *= f; }
+      if (m <= 0) continue;
+      const w = french ? v.tip[j] : 1;
+      const Lp = nude[0] + (pick[0] - nude[0]) * w, ap = nude[1] + (pick[1] - nude[1]) * w, bp = nude[2] + (pick[2] - nude[2]) * w;
+      const cf = Lp < 60 ? .6 : .45, cs = Lp < 70 ? 2.2 : 1.2, k = .55 + .45 * (1 - Lp / 100), ed = 6 + Lp * .06;
+      const sp = v.spec[j], L = Math.min(100, Math.max(0, Lp + v.form[j] * cf + v.det[j] * k + sp * cs - v.ei[j] * ed));
+      const sat = Math.min(1, Math.max(.6, 1 - sp / 14));
+      const fy = (L + 16) / 116, X = .95047 * finv(fy + ap * sat / 500), Y = L > 8 ? fy * fy * fy : L / 903.3, Z = 1.08883 * finv(fy - bp * sat / 200);
+      const r = gam(3.2406 * X - 1.5372 * Y - .4986 * Z), g = gam(-.9689 * X + 1.8758 * Y + .0415 * Z), b = gam(.0557 * X - .2040 * Y + 1.0570 * Z);
+      o[q] += (r - o[q]) * m; o[q + 1] += (g - o[q + 1]) * m; o[q + 2] += (b - o[q + 2]) * m;
+    }
+    g2.putImageData(out, 0, 0);
+    $('stageLoad').hidden = true;
+  };
+  const kick = () => { compose().catch(() => { $('stageLoad').textContent = 'Billedet kunne ikke indlæses.'; }); };
+
+  // Før / efter
+  const splitEl = $('split'), cmpBtn = $('cmpBtn');
+  const setSplit = v => { splitGoal = Math.min(1, Math.max(0, v)); beforeImg.hidden = splitGoal <= 0; beforeImg.style.clipPath = `inset(0 ${(100 - splitGoal * 100).toFixed(2)}% 0 0)`; splitEl.style.left = (splitGoal * 100) + '%'; splitEl.setAttribute('aria-valuenow', Math.round(splitGoal * 100)); };
+  cmpBtn.addEventListener('click', () => {
+    const on = cmpBtn.getAttribute('aria-pressed') !== 'true';
+    cmpBtn.setAttribute('aria-pressed', on); splitEl.hidden = !on; setSplit(on ? .5 : 0);
+  });
+  splitEl.addEventListener('pointerdown', e => {
+    splitEl.setPointerCapture(e.pointerId);
+    const move = ev => { const r = stage.getBoundingClientRect(); setSplit((ev.clientX - r.left) / r.width); };
+    const up = () => { splitEl.removeEventListener('pointermove', move); splitEl.removeEventListener('pointerup', up); };
+    splitEl.addEventListener('pointermove', move); splitEl.addEventListener('pointerup', up);
+  });
+  splitEl.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') setSplit(splitGoal - .05); if (e.key === 'ArrowRight') setSplit(splitGoal + .05); });
+
+  const lookText = () => `${look.finish === 'fransk' ? 'Fransk med ' + COLORS[look.color].n.toLowerCase() + ' spids' : COLORS[look.color].n} (${SHADES[look.shade].n.toLowerCase()}), ${SHAPE.find(s => s.v === look.shape).n.toLowerCase()}, ${LENGTHS.find(l => l.v === look.length).n.toLowerCase()}`;
+  const applyLook = () => {
+    const c = COLORS[look.color], hex = shadeHex(c.c, look.shade), rgb = hexRgb(hex);
+    renderShades();
+    $('capName').textContent = c.n; $('outColor').textContent = c.n; $('outShade').textContent = SHADES[look.shade].n;
+    $('capMeta').textContent = `${look.finish === 'fransk' ? 'Fransk · ' : ''}${SHAPE.find(s => s.v === look.shape).n} · ${LENGTHS.find(l => l.v === look.length).n} · ${SHADES[look.shade].n}`;
+    cv.setAttribute('aria-label', `Foto af en hånd med negle i ${lookText()}`);
+    kick();
+    document.documentElement.style.setProperty('--pick', hex);
+    $(`farve-${look.color}`).checked = true;
+    $(`nuance-${look.shade}`).checked = true;
+    $(`stil-${look.finish === 'fransk' ? 1 : 0}`).checked = true;
+    $(`facon-${SHAPE.findIndex(s => s.v === look.shape)}`).checked = true;
+    $(`laengde-${LENGTHS.findIndex(l => l.v === look.length)}`).checked = true;
+    tintHero(hex);
+  };
+  document.querySelector('.try-text').addEventListener('change', e => {
+    const t = e.target;
+    if (t.name === 'farve') { look.color = +t.value; look.shade = 2; }
+    if (t.name === 'nuance') look.shade = +t.value;
+    if (t.name === 'stil') look.finish = t.value;
+    if (t.name === 'facon') look.shape = t.value;
+    if (t.name === 'laengde') look.length = t.value;
+    applyLook();
+  });
+
+  let gift = 500;   // standardbeløb, når man booker et gavekort
+
+  /* ---------- Booking ---------- */
+  const SVC = [
+    { id: 'gele', n: 'Gelé lak, hænder', min: 45, kr: 349 },
+    { id: 'mani', n: 'Manicure med gelé lak', min: 60, kr: 449 },
+    { id: 'nyt', n: 'Nyt sæt forlængelse', min: 90, kr: 549 },
+    { id: 'opf', n: 'Opfyldning', min: 75, kr: 449 },
+    { id: 'pedi', n: 'Pedicure med lak', min: 60, kr: 449 },
+    { id: 'fjern', n: 'Fjernelse og pleje', min: 30, kr: 199 },
+    { id: 'gave', n: 'Gavekort', min: 0, kr: null }
+  ];
+  const HOURS = { 0: null, 1: [10, 18], 2: [10, 18], 3: [10, 18], 4: [10, 20], 5: [10, 18], 6: [10, 15] };
+  const DAYS = ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'];
+  const MON = ['jan.', 'feb.', 'mar.', 'apr.', 'maj', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'dec.'];
+  const pad = h => String(h).padStart(2, '0');
+  const fmtT = m => `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+
+  // Dansk tid lige nu
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Copenhagen', year: 'numeric', month: 'numeric', day: 'numeric', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+    .formatToParts(new Date()).map(p => [p.type, p.value]));
+  const todayDate = new Date(+parts.year, +parts.month - 1, +parts.day);
+  const nowMin = +parts.hour * 60 + +parts.minute;
+  const days = Array.from({ length: 14 }, (_, i) => { const d = new Date(todayDate); d.setDate(d.getDate() + i); return d; });
+
+  const busy = (d, m) => { const k = d.getDate() * 131 + d.getMonth() * 17 + m * 7; return (k * 2654435761 >>> 0) % 7 < 3; };
+  const slotsFor = (d, dur) => {
+    const h = HOURS[d.getDay()]; if (!h) return [];
+    const out = [], isToday = d.getTime() === todayDate.getTime();
+    for (let m = h[0] * 60; m + Math.max(dur, 30) <= h[1] * 60; m += 30) out.push({ m, off: busy(d, m) || (isToday && m <= nowMin + 30) });
+    return out;
+  };
+
+  const st = { svc: 'mani', day: null, time: null };
+  const pickSvc = $('pickSvc'), pickDay = $('pickDay'), pickTime = $('pickTime');
+  pickSvc.innerHTML = SVC.map((s, i) => `<label class="opt" for="svc-${i}"><input type="radio" id="svc-${i}" name="svc" value="${s.id}"><span><b>${s.n}</b><small>${s.min ? s.min + ' min · ' : ''}${s.kr ? s.kr + ' kr.' : 'Vælg beløb'}</small></span></label>`).join('');
+
+  const renderDays = () => {
+    const dur = SVC.find(s => s.id === st.svc).min;
+    pickDay.innerHTML = days.map((d, i) => {
+      const free = slotsFor(d, dur).some(s => !s.off);
+      return `<label class="opt" for="day-${i}"><input type="radio" id="day-${i}" name="dag" value="${i}" ${free ? '' : 'disabled'}><span><small>${i === 0 ? 'i dag' : i === 1 ? 'i morgen' : DAYS[d.getDay()].slice(0, 3)}</small><b>${d.getDate()}</b><small>${MON[d.getMonth()]}</small></span></label>`;
+    }).join('');
+    const ok = i => i !== null && !$(`day-${i}`).disabled;
+    if (!ok(st.day)) st.day = days.findIndex((d, i) => ok(i));
+    if (st.day >= 0) $(`day-${st.day}`).checked = true;
+  };
+  const renderTimes = () => {
+    const dur = SVC.find(s => s.id === st.svc).min;
+    const list = st.day >= 0 ? slotsFor(days[st.day], dur) : [];
+    pickTime.innerHTML = list.map((s, i) => `<label class="opt" for="t-${i}"><input type="radio" id="t-${i}" name="tid" value="${s.m}" ${s.off ? 'disabled' : ''}><span>${fmtT(s.m)}</span></label>`).join('') || '<p class="slot-note">Ingen ledige tider denne dag.</p>';
+    const free = list.filter(s => !s.off).map(s => s.m);
+    if (!free.includes(st.time)) st.time = free.length ? free[0] : null;
+    const idx = list.findIndex(s => s.m === st.time); if (idx >= 0) $(`t-${idx}`).checked = true;
+  };
+  const longDate = d => `${DAYS[d.getDay()]} ${d.getDate()}. ${MON[d.getMonth()].replace('.', '')}`;
+  const renderSum = () => {
+    if (!$('sum')) return;
+    const s = SVC.find(x => x.id === st.svc);
+    const when = st.day >= 0 && st.time !== null ? `${longDate(days[st.day])} kl. ${fmtT(st.time)}` : 'Vælg dag og tid';
+    const price = s.id === 'gave' ? `${gift.toLocaleString('da-DK')} kr.` : `${s.kr} kr.`;
+    $('sum').innerHTML = `<div><b>${s.id === 'gave' ? 'Gavekort, ' + gift.toLocaleString('da-DK') + ' kr.' : s.n}</b><span>${s.id === 'gave' ? 'Afhentes ' + when : when + ' · ' + s.min + ' min'}</span></div><strong>${price}</strong>`;
+  };
+  const renderAll = () => { $(`svc-${SVC.findIndex(s => s.id === st.svc)}`).checked = true; renderDays(); renderTimes(); renderSum(); };
+
+  pickSvc.addEventListener('change', e => { st.svc = e.target.value; renderDays(); renderTimes(); renderSum(); });
+  pickDay.addEventListener('change', e => { st.day = +e.target.value; st.time = null; renderTimes(); renderSum(); });
+  pickTime.addEventListener('change', e => { st.time = +e.target.value; renderSum(); });
+  renderAll();
+
+  // Første ledige tid i hero-kortet
+  (() => {
+    for (let i = 0; i < days.length; i++) {
+      const s = slotsFor(days[i], 45).find(x => !x.off);
+      if (s) { $('nextFree').textContent = `${i === 0 ? 'I dag' : i === 1 ? 'I morgen' : DAYS[days[i].getDay()][0].toUpperCase() + DAYS[days[i].getDay()].slice(1)} kl. ${fmtT(s.m)}`; $('nextFreeSub').textContent = 'Første ledige tid til gelé lak'; break; }
+    }
+  })();
+
+  const goBook = () => $('booking').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  document.querySelectorAll('.p-book').forEach(b => b.addEventListener('click', () => {
+    st.svc = b.dataset.svc; if (b.dataset.art) $('f-besked').value = 'Jeg vil gerne have nail art: ';
+    renderAll(); goBook();
+  }));
+  $('bookLook').addEventListener('click', () => {
+    if (st.svc === 'gave' || st.svc === 'fjern') st.svc = 'gele';
+    $('f-besked').value = `Look: ${lookText()}.`;
+    renderAll(); goBook();
+  });
+
+  const ok = $('ok');
+  $('booking').addEventListener('submit', e => {
+    e.preventDefault();
+    const navn = $('f-navn').value.trim(), tlf = $('f-tlf').value.trim();
+    if (!navn || !tlf) { const miss = navn ? $('f-tlf') : $('f-navn'); [$('f-navn'), $('f-tlf')].forEach(el => el.setAttribute('aria-invalid', !el.value.trim())); ok.innerHTML = navn ? '<b>Telefonnummer mangler</b>Skriv dit nummer, så vi kan sende dig en bekræftelse.' : '<b>Navn mangler</b>Skriv dit navn, så vi ved, hvem tiden er til.'; ok.hidden = false; miss.focus(); return; }
+    if (st.time === null) { ok.innerHTML = '<b>Vælg et tidspunkt</b>Den valgte dag er fuldt booket. Vælg en anden dag.'; ok.hidden = false; return; }
+    const s = SVC.find(x => x.id === st.svc);
+    ok.innerHTML = `<b>Prototype: der er ikke sendt noget</b>Når siden går live, modtager salonen: ${s.id === 'gave' ? 'Gavekort på ' + gift.toLocaleString('da-DK') + ' kr.' : s.n}, ${longDate(days[st.day])} kl. ${fmtT(st.time)}, fra ${navn.replace(/[<>&]/g, '')} (${tlf.replace(/[<>&]/g, '')}).`;
+    ok.hidden = false;
+  });
+
+  /* ---------- Åbningsstatus ---------- */
+  const day = todayDate.getDay(), t = nowMin / 60, today = HOURS[day];
+  let now, sub;
+  if (today && t >= today[0] && t < today[1]) { now = 'Åbent nu'; sub = `Lukker kl. ${pad(today[1])}`; $('dot').classList.add('open'); }
+  else {
+    now = 'Lukket nu'; let d = day;
+    if (today && t < today[0]) sub = `Åbner i dag kl. ${pad(today[0])}`;
+    else { do { d = (d + 1) % 7; } while (!HOURS[d]); sub = `Åbner ${d === (day + 1) % 7 ? 'i morgen' : DAYS[d]} kl. ${pad(HOURS[d][0])}`; }
+  }
+  $('now').textContent = now; $('nowSub').textContent = sub;
+  const row = document.querySelector(`#hours tr[data-days="${day}"]`); if (row) row.classList.add('today');
+
+  /* ---------- Hero: video i baggrunden, kører lydløst i loop ---------- */
+  function tintHero() {}
+  const hv = $('heroVideo');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); hv.pause(); }
+  applyLook();
+})();
+</script>
+
+</body></html>
